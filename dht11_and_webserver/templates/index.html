@@ -1,0 +1,25 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Raspberry Pi 4 DHT11 Sensor</title>
+    <script>
+        setInterval(function() {
+            fetch('/data')
+            .then(response => response.json())
+            .then(data => {
+                document.getElementById('temp_c').innerHTML = data.temperature_c.toFixed(1) + ' °C';
+                document.getElementById('temp_f').innerHTML = data.temperature_f.toFixed(1) + ' °F';
+                document.getElementById('hum').innerHTML = data.humidity.toFixed(1) + ' %';
+            });
+        }, 5000);  // Update every 5 seconds
+    </script>
+</head>
+<body>
+    <h1>Raspberry Pi 4 DHT11 Sensor</h1>
+    <p>Temperature: <span id="temp_c">{{ temperature_c }} *C</span></p>
+    <p>Temperature: <span id="temp_f">{{ temperature_f }} *F</span></p>
+    <p>Humidity: <span id="hum">{{ humidity }} %</span></p>
+</body>
+</html>

@@ -1,0 +1,92 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>DHT11 Sensor Data</title>
+    <style>
+        body {
+            font-family: 'Arial', sans-serif;
+            background-color: #f4f4f4;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            height: 100vh;
+            margin: 0;
+        }
+        .container {
+            background-color: #fff;
+            border-radius: 10px;
+            box-shadow: 0 4px 8px rgba(0, 0, 0, 0.2);
+            padding: 20px;
+            text-align: center;
+            width: 320px;
+        }
+        h1 {
+            color: #4CAF50;
+            font-size: 1.8em;
+            margin-bottom: 20px;
+        }
+        .sensor-data {
+            display: flex;
+            justify-content: space-between;
+            margin-bottom: 20px;
+        }
+        .sensor-box {
+            background-color: #f9f9f9;
+            padding: 15px;
+            border-radius: 8px;
+            width: 45%;
+            box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
+        }
+        .sensor-box p {
+            margin: 0;
+            font-size: 18px;
+            color: #555;
+        }
+        .sensor-value {
+            font-size: 28px;
+            color: #333;
+            font-weight: bold;
+        }
+        .footer {
+            font-size: 12px;
+            color: #888;
+            margin-top: 20px;
+        }
+    </style>
+    <script>
+        setInterval(function() {
+            fetch('/data')
+            .then(response => response.json())
+            .then(data => {
+                document.getElementById('temperature').innerHTML = 
+                    data.temperature !== null ? data.temperature.toFixed(1) + ' C' : 'N/A';
+                document.getElementById('humidity').innerHTML = 
+                    data.humidity !== null ? data.humidity.toFixed(1) + ' %' : 'N/A';
+            })
+            .catch(error => console.error('Error fetching data:', error));
+        }, 500);  // Update every 500 milliseconds
+    </script>
+</head>
+<body>
+
+    <div class="container">
+        <h1>DHT11 Sensor Data</h1>
+        <div class="sensor-data">
+            <div class="sensor-box">
+                <p>Temperature</p>
+                <p class="sensor-value" id="temperature">{{ temperature }} C</p>
+            </div>
+            <div class="sensor-box">
+                <p>Humidity</p>
+                <p class="sensor-value" id="humidity">{{ humidity }} %</p>
+            </div>
+        </div>
+        <div class="footer">
+            <p>Updated every 500 ms | Raspberry Pi</p>
+        </div>
+    </div>
+
+</body>
+</html>
